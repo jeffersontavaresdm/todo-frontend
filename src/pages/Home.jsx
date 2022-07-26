@@ -1,31 +1,38 @@
 import Form from "../components/Form";
-import {Button, Container} from "@mui/material";
+import {Container} from "@mui/material";
 import TodoItem from "../components/TodoItem";
 import List from "@mui/material/List";
 import React from "react";
+import DeleteAllTodosAlertDialog from "../components/DeleteAllTodosAlertDialog";
 
 function Home() {
   const [todos = Array, setTodos] = React.useState([])
-  const todoHandler = (todo) => {
-    setTodos([...todos, todo]);
+  const handleAddTodo = (todo) => setTodos([...todos, todo])
+  const handleDeleteTodo = (todoId) => {
+    let filteredTodos = todos.filter((todo) => todo.id !== todoId)
+    setTodos(typeof filteredTodos === "string" ? filteredTodos.split('') : filteredTodos)
   }
+
+  const handleRemoveAllItems = () => setTodos([])
 
   return (
     <Container maxWidth={"xs"} style={{marginTop: "1em"}}>
-      <Form todoHandler={todoHandler}/>
+      <Form todoHandler={handleAddTodo}/>
       <List sx={{width: '100%'}} style={{marginTop: "0.3em"}}>
-        {todos.map((todo, index) => {
+        {todos.map((todo) => {
           return (
-            <div style={{marginTop: "0.3em"}} key={index}>
-              <TodoItem item={todo}/>
+            <div style={{marginTop: "0.3em"}} key={`#${todo.id}`}>
+              <TodoItem todo={todo} handleDeleteTodo={handleDeleteTodo}/>
             </div>
           );
         })}
       </List>
-      <Button variant={"contained"} color={"warning"} fullWidth onClick={() => {
-        setTodos([])
-      }}
-      >DELETE ALL ITEMS</Button>
+      <div>
+        {todos.length !== 0
+          ? (<DeleteAllTodosAlertDialog handleRemoveAllItems={handleRemoveAllItems} todoSize={todos.length}/>)
+          : (<></>)
+        }
+      </div>
     </Container>
   )
 }

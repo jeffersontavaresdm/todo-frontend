@@ -3,7 +3,26 @@ import React from 'react';
 
 function Form({todoHandler}) {
   const [text, setText] = React.useState("")
-  const textInput = React.useRef(null);
+  const textInput = React.useRef(null)
+  const [id, setId] = React.useState(1)
+  const createTodo = (text) => {
+    let todo = {
+      text: text,
+      id: id
+    }
+
+    setId(id + 1)
+    todoHandler(todo)
+  }
+
+  function setTodo() {
+    if (text.trim()) {
+      createTodo(text)
+      setText("")
+    }
+
+    textInput.current.value = ""
+  }
 
   return (
     <div>
@@ -21,21 +40,12 @@ function Form({todoHandler}) {
             inputRef={textInput}
             onKeyDown={(entry) => {
               if (entry.key === 'Enter') {
-                todoHandler(text)
-                textInput.current.value = "";
+                setTodo()
                 entry.preventDefault();
               }
             }}
           />
-          <Button variant="outlined" onClick={() => {
-            if (text.trim()) {
-              todoHandler(text)
-              setText("")
-            }
-            textInput.current.value = "";
-          }}>
-            Add
-          </Button>
+          <Button variant="outlined" onClick={setTodo}>ADD</Button>
         </div>
       </Paper>
     </div>
