@@ -9,28 +9,35 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {Paper} from "@mui/material";
 import EditTodoDialog from "./EditTodoDialog";
 
-function TodoItem({todo, handleDeleteTodo}) {
+function TodoItem({todo, handleDeleteTodo, handleEditTodo}) {
+  const [openDialog, setOpenDialog] = React.useState(false)
+  const dialogHandler = () => setOpenDialog(!openDialog)
+
   return (
     <>
-      <EditTodoDialog>
-        <Paper>
-          <ListItem
-            secondaryAction={
-              <IconButton edge="end" aria-label="comments" onClick={() => handleDeleteTodo(todo.id)}>
-                <DeleteIcon/>
-              </IconButton>
-            }
-            disablePadding
-          >
-            <ListItemButton role={undefined} dense>
-              <ListItemIcon>
-                <Checkbox edge="start"/>
-              </ListItemIcon>
-              <ListItemText primary={todo.text}/>
-            </ListItemButton>
-          </ListItem>
-        </Paper>
-      </EditTodoDialog>
+      <EditTodoDialog
+        openDialog={openDialog}
+        dialogHandler={dialogHandler}
+        todo={todo}
+        handleEditTodo={handleEditTodo}
+      />
+      <Paper>
+        <ListItem
+          secondaryAction={
+            <IconButton edge="end" aria-label="comments" onClick={() => handleDeleteTodo(todo.id)}>
+              <DeleteIcon/>
+            </IconButton>
+          }
+          disablePadding
+        >
+          <ListItemButton role={undefined} dense>
+            <ListItemIcon>
+              <Checkbox edge="start"/>
+            </ListItemIcon>
+            <ListItemText primary={todo.text} onClick={() => setOpenDialog(true)}/>
+          </ListItemButton>
+        </ListItem>
+      </Paper>
     </>
   );
 }

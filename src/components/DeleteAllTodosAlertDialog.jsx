@@ -43,11 +43,11 @@ function DeleteAllTodosAlertDialog({handleRemoveAllItems, todoSize}) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>CANCEL</Button>
           <Button onClick={() => {
             handleClose()
             handleConfirmButton()
-          }} autoFocus>Confirm</Button>
+          }} autoFocus>CONFIRM</Button>
         </DialogActions>
       </Dialog>
     </div>

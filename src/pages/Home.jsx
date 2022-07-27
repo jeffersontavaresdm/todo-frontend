@@ -13,16 +13,28 @@ function Home() {
     setTodos(typeof filteredTodos === "string" ? filteredTodos.split('') : filteredTodos)
   }
 
+  const handleEditTodo = (todoId, editedText) => {
+    const newTodoList = [...todos];
+
+    newTodoList.forEach(todo => {
+      if (todo.id === todoId) {
+        todo.text = editedText
+      }
+    })
+
+    setTodos(newTodoList)
+  }
+
   const handleRemoveAllItems = () => setTodos([])
 
   return (
     <Container maxWidth={"xs"} style={{marginTop: "1em"}}>
-      <Form todoHandler={handleAddTodo}/>
+      <Form handleAddTodo={handleAddTodo}/>
       <List sx={{width: '100%'}} style={{marginTop: "0.3em"}}>
         {todos.map((todo) => {
           return (
             <div style={{marginTop: "0.3em"}} key={`#${todo.id}`}>
-              <TodoItem todo={todo} handleDeleteTodo={handleDeleteTodo}/>
+              <TodoItem todo={todo} handleDeleteTodo={handleDeleteTodo} handleEditTodo={handleEditTodo}/>
             </div>
           );
         })}

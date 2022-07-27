@@ -1,7 +1,7 @@
 import {Button, Paper, TextField} from "@mui/material";
 import React from 'react';
 
-function Form({todoHandler}) {
+function Form({handleAddTodo}) {
   const [text, setText] = React.useState("")
   const textInput = React.useRef(null)
   const [id, setId] = React.useState(1)
@@ -12,10 +12,10 @@ function Form({todoHandler}) {
     }
 
     setId(id + 1)
-    todoHandler(todo)
+    handleAddTodo(todo)
   }
 
-  function setTodo() {
+  const setTodo = () => {
     if (text.trim()) {
       createTodo(text)
       setText("")
@@ -29,7 +29,7 @@ function Form({todoHandler}) {
       <Paper style={{padding: "1em"}}>
         <div style={{display: "flex", justifyContent: "center"}}>
           <TextField
-            id="outlined-basic"
+            id="outlined-basic_01"
             label="Task"
             variant="outlined"
             fullWidth

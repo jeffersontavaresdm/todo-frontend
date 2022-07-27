@@ -3,53 +3,63 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {TransitionProps} from "@mui/material/transitions";
+import {Slide, TextField} from "@mui/material";
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef(
+  (props: TransitionProps & { children: React.ReactElement<any, any> }, reference) => {
+    return <Slide direction="up" ref={reference} {...props} />;
+  }
+);
 
-export default function EditTodoDialog() {
-  const [open, setOpen] = React.useState(false);
+export default function EditTodoDialog({openDialog, dialogHandler, todo, handleEditTodo}) {
+  const [editedText, setEditedText] = React.useState(todo.text)
+  const editTodo = () => {
+    if (editedText.trim()) {
+      handleEditTodo(todo.id, editedText)
+    }
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+    dialogHandler()
+  }
 
   return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Slide in alert dialog
-      </Button>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose}>Agree</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={openDialog}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={dialogHandler}
+      aria-describedby="alert-dialog-slide-description"
+      fullWidth
+    >
+      <DialogTitle>Edit task name</DialogTitle>
+      <DialogContent>
+        <TextField
+          id="outlined-basic_02"
+          label="Task"
+          variant="outlined"
+          color={"primary"}
+          fullWidth
+          defaultValue={editedText}
+          onChange={(entry) => {
+            const value = entry.target.value
+
+            if (value.trim()) {
+              setEditedText(value)
+            }
+          }}
+          onKeyDown={(entry) => {
+            if (entry.key === 'Enter') {
+              editTodo()
+              entry.preventDefault();
+            }
+          }}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={dialogHandler}>CANCEL</Button>
+        <Button onClick={editTodo}>CONFIRM</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
