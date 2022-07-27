@@ -6,13 +6,9 @@ export interface AppConfiguration {
   apiUrl: string;
 }
 
-let Config: AppConfiguration = {
+const Config: AppConfiguration = {
   appUrl: "http://localhost:3000",
   apiUrl: "http://localhost:3200"
-}
-
-Config = {
-  ...Config
 }
 
 export const API = axios.create(

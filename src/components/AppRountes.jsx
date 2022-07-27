@@ -1,7 +1,7 @@
 import {Routes, Route} from "react-router-dom";
-import SignUp from "./pages/SignUp";
-import SingIn from "./pages/SingIn";
-import TodoApp from "./pages/Home";
+import SignUp from "../pages/SignUp";
+import SingIn from "../pages/SingIn";
+import TodoApp from "../pages/TodoApp";
 
 const AppRoutes = () => {
   return (

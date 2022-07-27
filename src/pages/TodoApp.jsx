@@ -5,7 +5,7 @@ import List from "@mui/material/List";
 import React from "react";
 import DeleteAllTodosAlertDialog from "../components/DeleteAllTodosAlertDialog";
 
-function Home() {
+function TodoApp() {
   const [todos = Array, setTodos] = React.useState([])
   const handleAddTodo = (todo) => setTodos([...todos, todo])
   const handleDeleteTodo = (todoId) => {
@@ -49,4 +49,4 @@ function Home() {
   )
 }
 
-export default Home;
+export default TodoApp;

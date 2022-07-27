@@ -7,8 +7,8 @@ function Form({handleAddTodo}) {
   const [id, setId] = React.useState(1)
   const createTodo = (text) => {
     let todo = {
-      text: text,
-      id: id
+      id: id,
+      text: text
     }
 
     setId(id + 1)

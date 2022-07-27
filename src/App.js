@@ -1,7 +1,7 @@
 import './App.css';
 import {BrowserRouter as Router} from "react-router-dom";
 import React from "react";
-import AppRoutes from "./AppRountes";
+import AppRoutes from "./components/AppRountes";
 
 function App() {
   return (
