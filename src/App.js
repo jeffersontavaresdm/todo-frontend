@@ -1,9 +1,15 @@
 import './App.css';
-import Home from "./pages/Home";
+import {BrowserRouter as Router} from "react-router-dom";
+import React from "react";
+import AppRoutes from "./AppRountes";
 
 function App() {
   return (
-    <Home/>
+    <Router>
+      <React.Fragment>
+        <AppRoutes/>
+      </React.Fragment>
+    </Router>
   );
 }
 
