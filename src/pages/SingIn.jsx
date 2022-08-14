@@ -3,22 +3,22 @@ import Sheet from '@mui/joy/Sheet';
 import {Button, TextField, Typography} from "@mui/joy";
 import ModeToggle from "../components/ModeToggle";
 import React from "react";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import LoginAlert from "../components/LoginAlert";
 import Link from "@mui/joy/Link";
 import {Config as config} from "../config";
 import UserService from "../services/UserService";
+import LoginAlert from "../components/LoginAlert";
 
 const SingIn = () => {
-  const [usernameOrEmail, setUsernameOrEmail] = React.useState("")
+  const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
-  const [searchParams] = useSearchParams();
-  const alreadyRegistered = searchParams.get("alreadyRegistered")
+  const [signinError, setSigninError] = React.useState(false)
   const request = async () => {
-    let response = await UserService.signin(usernameOrEmail, password)
+    let response = await UserService.signin(email, password)
 
     if (typeof response === 'object') {
       console.log(`Response received! Token: ${response.data}`)
+    } else {
+      setSigninError(true)
     }
   }
 
@@ -49,30 +49,32 @@ const SingIn = () => {
           <div>
             <Typography align={"center"} level={"h3"} component={"h1"}>Sign in</Typography>
             <TextField
+              autoFocus={true}
               autoComplete={"off"}
               name={"email"}
               type={"email"}
-              placeholder={"Username or Email"}
+              placeholder={"email"}
               style={{marginTop: "0.5em"}}
-              onChange={(event) => setUsernameOrEmail(event.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
               onKeyDown={enterKeyPressed}
             />
             <TextField
               autoComplete={"off"}
               name={"password"}
               type={"password"}
-              placeholder={"Password"}
+              helperText={"Your password must be at least 6 characters"}
+              placeholder={"password"}
               style={{marginTop: "0.5em"}}
               onChange={(event) => setPassword(event.target.value)}
               onKeyDown={enterKeyPressed}
             />
             <Button
-              style={{marginTop: "0.5em"}}
+              style={{marginTop: "1em"}}
               onClick={request}
             >
               Log in
             </Button>
-            {!alreadyRegistered ?
+            {!signinError ?
               <Typography
                 style={{marginTop: "1em"}}
                 fontSize="sm"
@@ -84,6 +86,11 @@ const SingIn = () => {
           </div>
         </Sheet>
       </CssVarsProvider>
+      {
+        signinError ? <LoginAlert message={
+          `An error has occurred! Email or password is incorrect.`
+        }/> : <></>
+      }
     </div>
   );
 }

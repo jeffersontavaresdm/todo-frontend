@@ -15,9 +15,9 @@ class UserService {
     return response.data
   }
 
-  async signin(usernameOrEmail, password) {
+  async signin(email, password) {
     const data = {
-      usernameOrEmail: usernameOrEmail,
+      email: email,
       password: password,
     }
 
