@@ -6,7 +6,7 @@ import ModeToggle from "../components/ModeToggle";
 import React from 'react';
 import UserService from "../services/UserService";
 import {useNavigate} from "react-router-dom";
-import {Config as config} from "../config";
+import {apiConfig as config} from "../apiConfig";
 import keyGenerator from "../utils/keyGenerator";
 import LoginAlert from "../components/LoginAlert";
 

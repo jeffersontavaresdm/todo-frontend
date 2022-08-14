@@ -1,4 +1,4 @@
-import {API} from "../config";
+import {API, apiConfig} from "../apiConfig";
 
 class UserService {
 
@@ -22,7 +22,8 @@ class UserService {
     }
 
     return await API
-      .post("http://localhost:3200/login", data)
+      // .post("http://localhost:3200/login", data)
+      .post(`${apiConfig}`, data)
       .catch(error => error.response.status);
   }
 }

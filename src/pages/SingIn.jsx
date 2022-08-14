@@ -4,7 +4,7 @@ import {Button, TextField, Typography} from "@mui/joy";
 import ModeToggle from "../components/ModeToggle";
 import React from "react";
 import Link from "@mui/joy/Link";
-import {Config as config} from "../config";
+import {apiConfig, apiConfig as config} from "../apiConfig";
 import UserService from "../services/UserService";
 import LoginAlert from "../components/LoginAlert";
 
@@ -17,6 +17,8 @@ const SingIn = () => {
 
     if (typeof response === 'object') {
       console.log(`Response received! Token: ${response.data}`)
+
+      localStorage.setItem("@token", response.data)
     } else {
       setSigninError(true)
     }
@@ -78,7 +80,7 @@ const SingIn = () => {
               <Typography
                 style={{marginTop: "1em"}}
                 fontSize="sm"
-                endDecorator={<Link href={`${config.appUrl}/signup`}>Sign up</Link>}
+                endDecorator={<Link href={`${apiConfig.appUrl}/signup`}>Sign up</Link>}
                 sx={{alignSelf: 'center'}}
               >
                 Don't have an account?
