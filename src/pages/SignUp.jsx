@@ -3,20 +3,24 @@ import Sheet from '@mui/joy/Sheet';
 import {Button, TextField, Typography} from "@mui/joy";
 import Link from '@mui/joy/Link';
 import ModeToggle from "../components/ModeToggle";
-import config from "../config";
 import React from 'react';
-import makeKey from "../utils/MakeKey";
+import UserService from "../services/UserService";
+import {useNavigate} from "react-router-dom";
+import {Config as config} from "../config";
+import keyGenerator from "../utils/keyGenerator";
+import LoginAlert from "../components/LoginAlert";
 
 const SignUp = () => {
-  const [name, setName] = React.useState("")
+  const [username, setUsername] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
-  const [key, setKey] = React.useState(makeKey())
+  const navigate = useNavigate();
+  const [signupError, setSignupError] = React.useState(false)
 
   const createUser = () => {
     return {
-      key: key,
-      username: name,
+      key: keyGenerator(),
+      username: username,
       email: email,
       password: password
     }
@@ -43,12 +47,15 @@ const SignUp = () => {
           <div>
             <Typography align={"center"} level={"h3"} component={"h1"}>Sign up</Typography>
             <TextField
+              autoComplete={"off"}
               name={"name"}
               placeholder={"name"}
               style={{marginTop: "2em"}}
-              onChange={(event) => setName(event.target.value)}
+              onChange={(event) => setUsername(event.target.value)
+              }
             />
             <TextField
+              autoComplete={"off"}
               name={"email"}
               type={"email"}
               placeholder={"email"}
@@ -56,6 +63,7 @@ const SignUp = () => {
               onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
+              autoComplete={"off"}
               name={"password"}
               type={"password"}
               placeholder={"password"}
@@ -64,24 +72,42 @@ const SignUp = () => {
             />
             <Button
               style={{marginTop: "0.5em"}}
-              onClick={() => {
-                console.log(createUser())
-                setKey(makeKey())
+              onClick={async () => {
+                let user = createUser();
+                let response = await UserService.signup(user);
+
+                if (typeof response === 'object') {
+                  navigate("/signin");
+                } else {
+                  setSignupError(true)
+                }
               }}
             >
               Confirm
             </Button>
-            <Typography
-              style={{marginTop: "0.5em"}}
+            {!signupError ? <Typography
+              style={{marginTop: "1em"}}
               fontSize="sm"
               endDecorator={<Link href={`${config.appUrl}/signin`}>Sign in</Link>}
               sx={{alignSelf: 'center'}}
             >
               Already have an account?
-            </Typography>
+            </Typography> : <Typography
+              style={{marginTop: "1em"}}
+              fontSize="sm"
+              endDecorator={<Link href={`${config.appUrl}/signin`}>here</Link>}
+              sx={{alignSelf: 'center'}}
+            >
+              To login click
+            </Typography>}
           </div>
         </Sheet>
       </CssVarsProvider>
+      {
+        signupError ? <LoginAlert message={
+          `An error has occurred! Please create an account or login.`
+        }/> : <></>
+      }
     </div>
   );
 }

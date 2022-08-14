@@ -7,6 +7,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<SingIn/>}/>
+      <Route path="/teste" element={<div>TESTANDO!</div>}/>
       <Route path="/signin" element={<SingIn/>}/>
       <Route path="/signup" element={<SignUp/>}/>
       <Route path="/todos" element={<TodoApp/>}/>

@@ -1,22 +1,30 @@
 import {CssVarsProvider} from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import {Button, TextField, Typography} from "@mui/joy";
-import Link from '@mui/joy/Link';
 import ModeToggle from "../components/ModeToggle";
-import config from "../config";
 import React from "react";
-import makeKey from "../utils/MakeKey";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import LoginAlert from "../components/LoginAlert";
+import Link from "@mui/joy/Link";
+import {Config as config} from "../config";
+import UserService from "../services/UserService";
 
 const SingIn = () => {
-  const [email, setEmail] = React.useState("")
+  const [usernameOrEmail, setUsernameOrEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
-  const [key, setKey] = React.useState(makeKey())
+  const [searchParams] = useSearchParams();
+  const alreadyRegistered = searchParams.get("alreadyRegistered")
+  const request = async () => {
+    let response = await UserService.signin(usernameOrEmail, password)
 
-  const createUser = () => {
-    return {
-      key: key,
-      email: email,
-      password: password
+    if (typeof response === 'object') {
+      console.log(`Response received! Token: ${response.data}`)
+    }
+  }
+
+  const enterKeyPressed = async (entry) => {
+    if (entry.key === 'Enter') {
+      await request()
     }
   }
 
@@ -41,36 +49,38 @@ const SingIn = () => {
           <div>
             <Typography align={"center"} level={"h3"} component={"h1"}>Sign in</Typography>
             <TextField
+              autoComplete={"off"}
               name={"email"}
               type={"email"}
-              placeholder={"email"}
+              placeholder={"Username or Email"}
               style={{marginTop: "0.5em"}}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) => setUsernameOrEmail(event.target.value)}
+              onKeyDown={enterKeyPressed}
             />
             <TextField
+              autoComplete={"off"}
               name={"password"}
               type={"password"}
-              placeholder={"password"}
+              placeholder={"Password"}
               style={{marginTop: "0.5em"}}
               onChange={(event) => setPassword(event.target.value)}
+              onKeyDown={enterKeyPressed}
             />
             <Button
               style={{marginTop: "0.5em"}}
-              onClick={() => {
-                console.log(createUser())
-                setKey(makeKey())
-              }}
+              onClick={request}
             >
               Log in
             </Button>
-            <Typography
-              style={{marginTop: "0.5em"}}
-              fontSize="sm"
-              endDecorator={<Link href={`${config.appUrl}/signup`}>Sign up</Link>}
-              sx={{alignSelf: 'center'}}
-            >
-              Don't have an account?
-            </Typography>
+            {!alreadyRegistered ?
+              <Typography
+                style={{marginTop: "1em"}}
+                fontSize="sm"
+                endDecorator={<Link href={`${config.appUrl}/signup`}>Sign up</Link>}
+                sx={{alignSelf: 'center'}}
+              >
+                Don't have an account?
+              </Typography> : <></>}
           </div>
         </Sheet>
       </CssVarsProvider>

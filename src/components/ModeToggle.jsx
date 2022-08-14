@@ -20,11 +20,11 @@ const ModeToggle = () => {
         style={{marginLeft: "0.5em"}}
         variant={"plain"}
         sx={{
-          maxWidth: 165,
+          maxWidth: 250,
           display: 'flex',
           mx: 'auto',
-          py: 0.5,
-          px: 1.5,
+          py: 3,
+          px: 5,
           flexDirection: 'row',
           gap: 0.5,
           borderRadius: 'lg',
@@ -34,7 +34,7 @@ const ModeToggle = () => {
         <Typography>Dark Mode</Typography>
         <Switch
           variant="solid"
-          style={{marginLeft: "0.5em"}}
+          sx={{ml: 2}}
           checked={checked}
           color={mode === 'light' ? "neutral" : "primary"}
           onClick={() => mode === 'light' ? setMode('dark') : setMode('light')}

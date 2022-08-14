@@ -1,9 +1,9 @@
-import Form from "../components/Form";
+import TodoForm from "../components/TodoForm";
 import {Container} from "@mui/material";
 import TodoItem from "../components/TodoItem";
 import List from "@mui/material/List";
 import React from "react";
-import DeleteAllTodosAlertDialog from "../components/DeleteAllTodosAlertDialog";
+import DeleteAllTodosAlertDialog from "../components/dialogs/DeleteAllTodosAlertDialog";
 
 function TodoApp() {
   const [todos = Array, setTodos] = React.useState([])
@@ -29,7 +29,7 @@ function TodoApp() {
 
   return (
     <Container maxWidth={"xs"} style={{marginTop: "1em"}}>
-      <Form handleAddTodo={handleAddTodo}/>
+      <TodoForm handleAddTodo={handleAddTodo}/>
       <List sx={{width: '100%'}} style={{marginTop: "0.3em"}}>
         {todos.map((todo) => {
           return (

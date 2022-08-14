@@ -1,0 +1,30 @@
+import {API} from "../config";
+
+class UserService {
+
+  async list() {
+    const result = await API.get("/v1/user/list")
+    return result.data
+  }
+
+  async signup(data) {
+    let response = await API
+      .post("/api/user/signup", data)
+      .catch(error => error.response.status);
+
+    return response.data
+  }
+
+  async signin(usernameOrEmail, password) {
+    const data = {
+      usernameOrEmail: usernameOrEmail,
+      password: password,
+    }
+
+    return await API
+      .post("http://localhost:3200/login", data)
+      .catch(error => error.response.status);
+  }
+}
+
+export default new UserService();

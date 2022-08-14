@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Paper} from "@mui/material";
-import EditTodoDialog from "./EditTodoDialog";
+import EditTodoDialog from "./dialogs/EditTodoDialog";
 
 function TodoItem({todo, handleDeleteTodo, handleEditTodo}) {
   const [openDialog, setOpenDialog] = React.useState(false)

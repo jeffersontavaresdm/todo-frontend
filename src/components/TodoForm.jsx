@@ -1,7 +1,7 @@
 import {Button, Paper, TextField} from "@mui/material";
 import React from 'react';
 
-function Form({handleAddTodo}) {
+function TodoForm({handleAddTodo}) {
   const [text, setText] = React.useState("")
   const textInput = React.useRef(null)
   const [id, setId] = React.useState(1)
@@ -34,9 +34,7 @@ function Form({handleAddTodo}) {
             variant="outlined"
             fullWidth
             color={"primary"}
-            onChange={(entry) => {
-              setText(entry.target.value)
-            }}
+            onChange={(entry) => setText(entry.target.value)}
             inputRef={textInput}
             onKeyDown={(entry) => {
               if (entry.key === 'Enter') {
@@ -52,4 +50,4 @@ function Form({handleAddTodo}) {
   )
 }
 
-export default Form;
+export default TodoForm;
