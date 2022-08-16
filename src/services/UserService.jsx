@@ -1,9 +1,9 @@
-import {API, apiConfig} from "../apiConfig";
+import {API} from "../api";
 
 class UserService {
 
   async list() {
-    const result = await API.get("/v1/user/list")
+    const result = await API.get("/api/user/list")
     return result.data
   }
 
@@ -22,8 +22,7 @@ class UserService {
     }
 
     return await API
-      // .post("http://localhost:3200/login", data)
-      .post(`${apiConfig}`, data)
+      .post("/login", data)
       .catch(error => error.response.status);
   }
 }

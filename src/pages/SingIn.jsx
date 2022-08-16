@@ -4,14 +4,17 @@ import {Button, TextField, Typography} from "@mui/joy";
 import ModeToggle from "../components/ModeToggle";
 import React from "react";
 import Link from "@mui/joy/Link";
-import {apiConfig, apiConfig as config} from "../apiConfig";
+import {api} from "../api";
 import UserService from "../services/UserService";
 import LoginAlert from "../components/LoginAlert";
+import {useNavigate} from "react-router-dom";
 
 const SingIn = () => {
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [signinError, setSigninError] = React.useState(false)
+  const navigate = useNavigate()
+
   const request = async () => {
     let response = await UserService.signin(email, password)
 
@@ -19,6 +22,8 @@ const SingIn = () => {
       console.log(`Response received! Token: ${response.data}`)
 
       localStorage.setItem("@token", response.data)
+
+      navigate("/todos")
     } else {
       setSigninError(true)
     }
@@ -26,6 +31,7 @@ const SingIn = () => {
 
   const enterKeyPressed = async (entry) => {
     if (entry.key === 'Enter') {
+
       await request()
     }
   }
@@ -80,11 +86,18 @@ const SingIn = () => {
               <Typography
                 style={{marginTop: "1em"}}
                 fontSize="sm"
-                endDecorator={<Link href={`${apiConfig.appUrl}/signup`}>Sign up</Link>}
+                endDecorator={<Link href={`${api.appUrl}/signup`}>Sign up</Link>}
                 sx={{alignSelf: 'center'}}
               >
                 Don't have an account?
-              </Typography> : <></>}
+              </Typography> : <Typography
+                style={{marginTop: "1em"}}
+                fontSize="sm"
+                endDecorator={<Link href={`${api.appUrl}/signup`}>here</Link>}
+                sx={{alignSelf: 'center'}}
+              >
+                If you want to create an account, just click
+              </Typography>}
           </div>
         </Sheet>
       </CssVarsProvider>

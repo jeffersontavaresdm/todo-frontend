@@ -6,7 +6,7 @@ import ModeToggle from "../components/ModeToggle";
 import React from 'react';
 import UserService from "../services/UserService";
 import {useNavigate} from "react-router-dom";
-import {apiConfig as config} from "../apiConfig";
+import {api as config} from "../api";
 import keyGenerator from "../utils/keyGenerator";
 import LoginAlert from "../components/LoginAlert";
 
@@ -17,12 +17,26 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [signupError, setSignupError] = React.useState(false)
 
-  const createUser = () => {
-    return {
+  const enterKeyPressed = async (entry) => {
+    if (entry.key === 'Enter') {
+      await signup()
+    }
+  }
+
+  const signup = async () => {
+    let user = {
       key: keyGenerator(),
       username: username,
       email: email,
       password: password
+    }
+
+    let response = await UserService.signup(user);
+
+    if (typeof response === 'object') {
+      navigate("/signin");
+    } else {
+      setSignupError(true)
     }
   }
 
@@ -48,11 +62,12 @@ const SignUp = () => {
             <Typography align={"center"} level={"h3"} component={"h1"}>Sign up</Typography>
             <TextField
               autoComplete={"off"}
+              autoFocus={true}
               name={"name"}
               placeholder={"name"}
               style={{marginTop: "2em"}}
-              onChange={(event) => setUsername(event.target.value)
-              }
+              onChange={(event) => setUsername(event.target.value)}
+              onKeyDown={enterKeyPressed}
             />
             <TextField
               autoComplete={"off"}
@@ -61,6 +76,7 @@ const SignUp = () => {
               placeholder={"email"}
               style={{marginTop: "0.5em"}}
               onChange={(event) => setEmail(event.target.value)}
+              onKeyDown={enterKeyPressed}
             />
             <TextField
               autoComplete={"off"}
@@ -69,19 +85,11 @@ const SignUp = () => {
               placeholder={"password"}
               style={{marginTop: "0.5em"}}
               onChange={(event) => setPassword(event.target.value)}
+              onKeyDown={enterKeyPressed}
             />
             <Button
               style={{marginTop: "0.5em"}}
-              onClick={async () => {
-                let user = createUser();
-                let response = await UserService.signup(user);
-
-                if (typeof response === 'object') {
-                  navigate("/signin");
-                } else {
-                  setSignupError(true)
-                }
-              }}
+              onClick={signup}
             >
               Confirm
             </Button>
