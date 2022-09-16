@@ -19,8 +19,6 @@ const SingIn = () => {
     let response = await UserService.signin(email, password)
 
     if (typeof response === 'object') {
-      console.log(`Response received! Token: ${response.data}`)
-
       localStorage.setItem("@token", response.data)
 
       navigate("/todos")
@@ -103,7 +101,7 @@ const SingIn = () => {
       </CssVarsProvider>
       {
         signinError ? <LoginAlert message={
-          `An error has occurred! Email or password is incorrect.`
+          `An error has occurred! Email or Password is incorrect.`
         }/> : <></>
       }
     </div>

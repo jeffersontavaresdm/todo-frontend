@@ -1,23 +1,23 @@
 import {Button, Paper, TextField} from "@mui/material";
 import React from 'react';
+import TodoService from "../services/TodoService";
 
 function TodoForm({handleAddTodo}) {
   const [text, setText] = React.useState("")
   const textInput = React.useRef(null)
-  const [id, setId] = React.useState(1)
-  const createTodo = (text) => {
-    let todo = {
-      id: id,
-      text: text
-    }
+  const createTodo = async (text) => {
+    let data = {name: text}
 
-    setId(id + 1)
-    handleAddTodo(todo)
+    let response = await TodoService.create(data.name)
+
+    if (typeof response === 'object') {
+      handleAddTodo(response.data)
+    }
   }
 
-  const setTodo = () => {
+  const todoHandler = async () => {
     if (text.trim()) {
-      createTodo(text)
+      await createTodo(text)
       setText("")
     }
 
@@ -36,14 +36,14 @@ function TodoForm({handleAddTodo}) {
             color={"primary"}
             onChange={(entry) => setText(entry.target.value)}
             inputRef={textInput}
-            onKeyDown={(entry) => {
+            onKeyDown={async (entry) => {
               if (entry.key === 'Enter') {
-                setTodo()
+                await todoHandler()
                 entry.preventDefault();
               }
             }}
           />
-          <Button variant="outlined" onClick={setTodo}>ADD</Button>
+          <Button variant="outlined" onClick={todoHandler}>ADD</Button>
         </div>
       </Paper>
     </div>

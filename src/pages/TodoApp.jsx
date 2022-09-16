@@ -33,7 +33,7 @@ function TodoApp() {
       <List sx={{width: '100%'}} style={{marginTop: "0.3em"}}>
         {todos.map((todo) => {
           return (
-            <div style={{marginTop: "0.3em"}} key={`#${todo.id}`}>
+            <div style={{marginTop: "0.3em"}} key={`${todo.id}`}>
               <TodoItem todo={todo} handleDeleteTodo={handleDeleteTodo} handleEditTodo={handleEditTodo}/>
             </div>
           );

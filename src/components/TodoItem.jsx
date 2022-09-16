@@ -34,7 +34,7 @@ function TodoItem({todo, handleDeleteTodo, handleEditTodo}) {
             <ListItemIcon>
               <Checkbox edge="start"/>
             </ListItemIcon>
-            <ListItemText primary={todo.text} onClick={() => setOpenDialog(true)}/>
+            <ListItemText primary={todo.name} onClick={() => setOpenDialog(true)}/>
           </ListItemButton>
         </ListItem>
       </Paper>
