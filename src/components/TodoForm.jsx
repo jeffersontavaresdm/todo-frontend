@@ -12,6 +12,8 @@ function TodoForm({handleAddTodo}) {
 
     if (typeof response === 'object') {
       handleAddTodo(response.data)
+    } else {
+      console.log(response.code)
     }
   }
 

@@ -26,7 +26,7 @@ const SingIn = () => {
       setSigninError(true)
     }
   }
-
+console.log()
   const enterKeyPressed = async (entry) => {
     if (entry.key === 'Enter') {
 
