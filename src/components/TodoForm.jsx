@@ -6,15 +6,6 @@ function TodoForm({handleAddTodo}) {
   const [text, setText] = React.useState("")
   const textInput = React.useRef(null)
 
-  const todoHandler = async () => {
-    if (text.trim()) {
-      await createTodo(text)
-      setText("")
-    }
-
-    textInput.current.value = ""
-  }
-
   const createTodo = async (text) => {
     let data = {name: text}
 
@@ -25,6 +16,15 @@ function TodoForm({handleAddTodo}) {
     } else {
       console.log(response.code)
     }
+  }
+
+  const todoHandler = async () => {
+    if (text.trim()) {
+      await createTodo(text)
+      setText("")
+    }
+
+    textInput.current.value = ""
   }
 
   return (
